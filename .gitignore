@@ -1,0 +1,38 @@
+# Build artifacts
+build/
+build_*/
+build-*/
+.cache/
+
+# ESP-IDF generated
+sdkconfig
+sdkconfig.old
+*.pyc
+__pycache__/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.clangd/
+.cursor/
+
+# macOS
+.DS_Store
+
+# CMake
+compile_commands.json
+CMakeCache.txt
+CMakeFiles/
+
+# Dependencies
+managed_components/
+dependencies.lock
+
+# Flash / debug
+*.bin
+*.elf
+*.map
+flasher_args.json
