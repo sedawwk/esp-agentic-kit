@@ -61,7 +61,7 @@ idf_component_register(
         ${AK_DIR}/third_party/coreMQTT/source/include
         ${AK_DIR}/third_party/coreMQTT/source/interface
         ${AK_DIR}/third_party/cJSON
-    REQUIRES mbedtls json freertos lwip esp_event esp_netif esp_timer esp_wifi
+    REQUIRES mbedtls json freertos lwip esp_event esp_netif esp_timer esp_wifi esp-tls
 )
 
 target_compile_definitions(${COMPONENT_LIB} PRIVATE
