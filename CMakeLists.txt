@@ -15,6 +15,7 @@ set(AK_SRCS
     ${AK_DIR}/modules/iot-client/src/atop_base.c
     ${AK_DIR}/modules/iot-client/src/cipher_wrapper.c
     ${AK_DIR}/modules/iot-client/src/http_client_interface.c
+    ${AK_DIR}/modules/iot-client/src/iot_ai_ctrl.c
     ${AK_DIR}/modules/iot-client/src/iot_atop.c
     ${AK_DIR}/modules/iot-client/src/iot_client.c
     ${AK_DIR}/modules/iot-client/src/iot_client_message.c
@@ -22,6 +23,7 @@ set(AK_SRCS
     ${AK_DIR}/modules/iot-client/src/iot_dp.c
     ${AK_DIR}/modules/iot-client/src/iot_on_boarding.c
     ${AK_DIR}/modules/iot-client/src/iot_ota.c
+    ${AK_DIR}/modules/iot-client/src/iot_ota_verify.c
     ${AK_DIR}/modules/iot-client/src/mqtt.c
 
     # tuya-ble
@@ -67,10 +69,13 @@ idf_component_register(
     REQUIRES mbedtls json freertos lwip esp_event esp_netif esp_timer esp_wifi esp-tls
 )
 
-target_compile_definitions(${COMPONENT_LIB} PRIVATE
-    HTTP_DO_NOT_USE_CUSTOM_CONFIG
-    MQTT_DO_NOT_USE_CUSTOM_CONFIG
-    IOT_DO_NOT_USE_CUSTOM_CONFIG
+# coreHTTP/coreMQTT custom configs (common/core_*_config.h) route their
+# Error/Warn logs into the SDK log facade; removing the *_DO_NOT_USE_CUSTOM_CONFIG
+# defines exposes the broker's CONNACK refusal reason instead of a bare error code.
+# ${AK_DIR}/common is in INCLUDE_DIRS, so common/log.h's override search finds
+# kit_opts/agentic_kit_config.h (added below) and remaps all SDK logs to ESP_LOGx.
+target_include_directories(${COMPONENT_LIB} PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/kit_opts"
 )
 
 target_compile_options(${COMPONENT_LIB} PRIVATE
